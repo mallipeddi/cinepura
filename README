@@ -1,0 +1,14 @@
+Cinepura v0.1
+Copyright (c) 2008 Harish Mallipeddi
+All rights reserved.
+
+Cinepura is an iPhone web application written using Django and iUI. It helps the users find out which movies are currently playing in cinemas in Singapore. Yahoo! Singapore Movies is crawled daily using a cron script and the output is dumped as JSON into a file. You can check out the app at http://poundbang.in/cinepura/
+
+Dependencies
+	* Install pyimdb
+	* Install BeautifulSoup
+	* Django (latest trunk)
+
+Contact developer
+	* Email - harish.mallipeddi@gmail.com
+	* Website - http://poundbang.in
