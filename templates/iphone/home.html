@@ -1,0 +1,172 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+   "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Cinepura - In Cinemas Singapore</title>
+    <meta name="generator" content="TextMate http://macromates.com/">
+    <meta name="author" content="Harish Mallipeddi">
+    <!-- Date: 2008-04-05 -->
+    
+    <meta name="viewport" content="width=320; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;"/>
+    <link type="text/css" rel="stylesheet" href="{{ settings.STATIC_MEDIA_PREFIX }}/iui/iuix.css"/>
+    <script type="text/javascript" src="{{ settings.STATIC_MEDIA_PREFIX }}/iui/iuix.js"></script>
+    <style type="text/css">
+
+        body > ul > li {
+            font-size: 14px;
+        }
+
+        body > ul > li > a {
+            padding-left: 54px;
+            padding-right: 40px;
+            min-height: 34px;
+        }
+
+        li .imdb-rating {
+            display: block;
+            position: absolute;
+            margin: 0;
+            left: 6px;
+            top: 7px;
+            text-align: center;
+            font-size: 110%;
+            letter-spacing: -0.07em;
+            color: #24201F;
+            font-weight: bold;
+            text-decoration: none;
+            width: 36px;
+            height: 30px;
+            padding: 7px 0 0 0;
+            background: url({{ settings.STATIC_MEDIA_PREFIX }}/images/shade-compact.gif) no-repeat;
+        }
+
+        h2 {
+            margin: 10px;
+            color: slateblue;
+        }
+
+        p {
+            margin: 10px;
+        }
+        
+        .panel >  .itable {
+            position: relative;
+            margin: 10px auto 20px auto;
+            padding: 0;
+            background: #FFFFFF;
+            border: 1px solid #999999;
+            font-size: 16px;
+        }
+
+        .itable > .irow  {
+            position: relative;
+            min-height: 42px;
+            border-bottom: 1px solid #999999;
+        }
+        
+        .irow > td {
+            margin: 0;
+            padding: 10px 10px 2px 10px;
+            min-height: 42px;
+            background: none;
+            text-align: left;
+        }
+
+        .irow > .label {
+            position: top;
+        }
+
+        .irow > .value {
+            line-height: 28px;
+            font-weight: bold;
+        }
+        
+        .clear {
+            clear: both;
+            margin: 0px;
+            padding: 0px;
+        }
+        
+        .cert {
+            color: #A91929;
+            font-size: 90%;
+        }
+    </style>
+</head>
+<body>
+    <div class="toolbar">
+        <h1 id="pageTitle"></h1>
+        <a id="backButton" class="button" href="#"></a>
+        <a class="button" href="#help">Help</a>
+    </div>
+    <ul id="home" title="In Cinemas" selected="true">
+        {% for movie in movies %}
+            <li>
+                <a class="imdb-rating">{{ movie.rating|floatformat:1 }}</a>
+                <a href="#{{ forloop.counter }}">{{ movie.title }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+    {% for movie in movies %}
+        <div id="{{ forloop.counter }}" title="{{ movie.title }}" class="panel">
+            <h2>
+                {{ movie.title }} {% if movie.year %}({{ movie.year }}){% endif %}
+                {% if movie.cert %}<span class="cert">{{ movie.cert }}</span>{% endif %}
+            </h2>
+            {% if movie.plot_outline %}<p>{{ movie.plot_outline }}</p>{% endif %}
+            <table class="itable">
+                {% if movie.rating and movie.votes %}
+                <tr class="irow">
+                    <td class="label">IMDb</td>
+                    <td class="value">{{ movie.rating|floatformat:"1" }} / 10 ({{ movie.votes }} votes)</td>
+                </tr>
+                {% endif %}
+                {% if movie.genres %}
+                <tr class="irow">
+                    <td class="label">Genre</td>
+                    <td class="value">{{ movie.genres|join:", " }}</td>
+                </tr>
+                {% endif %}
+                {% if movie.languages %}
+                <tr class="irow">
+                    <td class="label">Language</td>
+                    <td class="value">{{ movie.languages|join:", " }}</td>
+                </tr>
+                {% endif %}
+                {% if movie.directors %}
+                <tr class="irow">
+                    <td class="label">Director</td>
+                    <td class="value">{{ movie.directors|join:", " }}</td>
+                </tr>    
+                {% endif %}
+                {% if movie.cast %}
+                <tr class="irow">
+                    <td class="label">Cast</td>
+                    <td class="value">{{ movie.cast|join:", " }}</td>
+                </tr>
+                {% endif %}
+            </table>
+            <h2>Showtimes</h2>
+            <table class="itable">
+                {% for cinema in movie.cinemas %}
+                    <tr class="irow">
+                        <td class="label">{{ cinema.name }}</td>
+                        <td class="value">{{ cinema.showtimes }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+    {% endfor %}
+    
+    <div id="help" title="Help" class="panel">
+        <h3>About this app</h3>
+        <p>This iPhone app provides quick and easy access to movie showtimes in Singapore. Movies are sorted by IMDB ratings. Clicking on a movie title displays more info from IMDB.</p>
+        <h3>Developer</h3>
+        <p><a href="http://poundbang.in/blog/" target="_self">Harish Mallipeddi</a> - <a href="mailto:harish.mallipeddi@gmail.com" target="_self">harish.mallipeddi@gmail.com</a></p>
+        <h3>Colophon</h3>
+        <p>This app has been built using Django, pyimdb, BeautifulSoup, and iUI</p>
+    </div>
+</body>
+</html>
